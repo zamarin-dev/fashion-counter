@@ -1,1 +1,2 @@
 # fashion-counter
+ファッションカウンター
