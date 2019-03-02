@@ -1,16 +1,30 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <script src="https://unpkg.com/@tensorflow/tfjs"></script>
-    <script src="https://unpkg.com/@tensorflow-models/posenet@0.2.3/dist/posenet.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
     <title>Fashion Counter</title>
-</head>
-<body>
-    <video id="video" width="800px" height="600px" autoplay="1" style="position:absolute;"></video>
-    <canvas id="canvas" width="800px" height="600px" style="position:absolute;"></canvas>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <div id="info" style="display:none"></div>
+    <div id="loading">
+      Loading the model...
+    </div>
+    <div id="main" style="display:none">
+      <video
+        id="video"
+        playsinline
+        style=" -moz-transform: scaleX(-1);
+            -o-transform: scaleX(-1);
+            -webkit-transform: scaleX(-1);
+            transform: scaleX(-1);
+            display: none;
+            "
+      ></video>
+      <canvas id="output"> </canvas>
+    </div>
     <script src="camera.js"></script>
-</body>
+  </body>
 </html>
