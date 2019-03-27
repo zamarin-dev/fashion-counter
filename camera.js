@@ -98,7 +98,7 @@ function detectPoseInRealTime(video, net) {
     ctx.restore();
 
     poses.forEach(({ score, keypoints }) => {
-      drawFace(keypoints[0], keypoints[1], ctx);
+      // drawFace(keypoints[0], keypoints[1], ctx);
       if (score >= minPoseConfidence) {
         drawKeypoints(keypoints, minPartConfidence, ctx);
       }
@@ -145,6 +145,7 @@ function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
   }
 }
 
+/*
 // 顔に写真を貼り付ける
 function drawFace(nose, leye, ctx) {
   imageScale = (leye.position.x - nose.position.x - 50) / 50;
@@ -159,5 +160,6 @@ function drawFace(nose, leye, ctx) {
     nh
   );
 }
+*/
 
 bindPage();
