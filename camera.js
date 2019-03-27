@@ -101,6 +101,8 @@ function detectPoseInRealTime(video, net) {
       // drawFace(keypoints[0], keypoints[1], ctx);
       if (score >= minPoseConfidence) {
         drawKeypoints(keypoints, minPartConfidence, ctx);
+        drawBoundingBox(keypoints, ctx);
+        console.log(getBodyPosition(keypoints))
       }
     });
 
@@ -161,5 +163,45 @@ function drawFace(nose, leye, ctx) {
   );
 }
 */
+
+// 体を四角で囲む
+function drawBoundingBox(keypoints, ctx) {
+  const boundingBox = posenet.getBoundingBox(keypoints);
+
+  ctx.rect(
+    boundingBox.minX,
+    boundingBox.minY,
+    boundingBox.maxX - boundingBox.minX,
+    boundingBox.maxY - boundingBox.minY
+  );
+
+  ctx.strokeStyle = "red";
+  ctx.stroke();
+}
+
+// 認識した人の座標を取得([左上のx座標, 左上のy座標, 右下のx座標, 右下のy座標])
+function getBodyPosition(keypoints) {
+  const boundingBox = posenet.getBoundingBox(keypoints);
+
+  var bodyPosition = []
+
+  bodyPosition.push(boundingBox.minX)
+  bodyPosition.push(boundingBox.minY)
+  bodyPosition.push(boundingBox.maxX)
+  bodyPosition.push(boundingBox.maxX)
+
+  for (var i=0; i<bodyPosition.length; i++){
+    if (bodyPosition[i] <= 0){
+      bodyPosition[i] = 0;
+    }
+
+    if(bodyPosition[i] >= videoWidth){
+      bodyPosition[i] = videoWidth;
+    }
+  }
+
+  return bodyPosition
+}
+
 
 bindPage();
