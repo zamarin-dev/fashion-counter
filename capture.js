@@ -9,7 +9,7 @@ var vm = new Vue({
   methods: {
     captureBody: function(){
 
-        var coord =  getBodyPosition(keypoints); //体の座標
+        var coord =  temp; //体の座標
         var video = document.getElementById('video');
         var canvas = document.getElementById('capCanvas');
         var ctx    = canvas.getContext('2d');
@@ -18,9 +18,11 @@ var vm = new Vue({
         // var height = video.offsetHeight;
 
         //canvas.setAttribute('width' , width);
-        canvas.setAttribute('width' , coord[2]);
+        canvas.setAttribute('width' , 600);
         //canvas.setAttribute('height', height);
-        canvas.setAttribute('height', coord[3]);
+        canvas.setAttribute('height', 600);
+        ctx.scale(-1, 1);
+        ctx.translate(-600, 0);
         ctx.drawImage(video, coord[0], coord[1], coord[2], coord[3]);
         // ctx.drawImage(video, 0, 0, width, height);
 

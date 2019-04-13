@@ -29,6 +29,8 @@ let imageScale = 1;
 let imageFace = new Image();
 imageFace.src = "image.png";
 
+var temp;
+
 // カメラのセットアップ
 async function setupCamera() {
   const video = document.getElementById("video");
@@ -88,8 +90,6 @@ function detectPoseInRealTime(video, net) {
     );
     // 複数人での認識はここを修正する
     poses.push(pose);
-    poses
-
     ctx.clearRect(0, 0, videoWidth, videoHeight);
 
     ctx.save();
@@ -103,7 +103,8 @@ function detectPoseInRealTime(video, net) {
       if (score >= minPoseConfidence) {
         drawKeypoints(keypoints, minPartConfidence, ctx);
         drawBoundingBox(keypoints, ctx);
-        console.log(getBodyPosition(keypoints))
+        console.log(getBodyPosition(keypoints));
+        temp = getBodyPosition(keypoints);
       }
     });
 
