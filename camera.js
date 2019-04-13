@@ -88,6 +88,7 @@ function detectPoseInRealTime(video, net) {
     );
     // 複数人での認識はここを修正する
     poses.push(pose);
+    poses
 
     ctx.clearRect(0, 0, videoWidth, videoHeight);
 
@@ -188,7 +189,7 @@ function getBodyPosition(keypoints) {
   bodyPosition.push(boundingBox.minX)
   bodyPosition.push(boundingBox.minY)
   bodyPosition.push(boundingBox.maxX)
-  bodyPosition.push(boundingBox.maxX)
+  bodyPosition.push(boundingBox.maxY)
 
   for (var i=0; i<bodyPosition.length; i++){
     if (bodyPosition[i] <= 0){
