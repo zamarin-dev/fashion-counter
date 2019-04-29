@@ -1,3 +1,23 @@
+/**
+ * @license
+ * Copyright 2018 Google Inc. All Rights Reserved.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * =============================================================================
+ *
+ * This program was changed by "zamarin-dev".
+ *
+ */
+
 const imageScaleFactor = 0.2;
 const outputStride = 16;
 const flipHorizontal = false;
@@ -8,6 +28,8 @@ const color = "aqua";
 let imageScale = 1;
 let imageFace = new Image();
 imageFace.src = "image.png";
+
+var temp;
 
 // カメラのセットアップ
 async function setupCamera() {
@@ -68,7 +90,6 @@ function detectPoseInRealTime(video, net) {
     );
     // 複数人での認識はここを修正する
     poses.push(pose);
-
     ctx.clearRect(0, 0, videoWidth, videoHeight);
 
     ctx.save();
@@ -78,9 +99,12 @@ function detectPoseInRealTime(video, net) {
     ctx.restore();
 
     poses.forEach(({ score, keypoints }) => {
-      drawFace(keypoints[0], keypoints[1], ctx);
+      // drawFace(keypoints[0], keypoints[1], ctx);
       if (score >= minPoseConfidence) {
         drawKeypoints(keypoints, minPartConfidence, ctx);
+        drawBoundingBox(keypoints, ctx);
+        // console.log(getBodyPosition(keypoints));
+        temp = getBodyPosition(keypoints);
       }
     });
 
@@ -125,6 +149,7 @@ function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
   }
 }
 
+/*
 // 顔に写真を貼り付ける
 function drawFace(nose, leye, ctx) {
   imageScale = (leye.position.x - nose.position.x - 50) / 50;
@@ -139,5 +164,46 @@ function drawFace(nose, leye, ctx) {
     nh
   );
 }
+*/
+
+// 体を四角で囲む
+function drawBoundingBox(keypoints, ctx) {
+  const boundingBox = posenet.getBoundingBox(keypoints);
+
+  ctx.rect(
+    boundingBox.minX,
+    boundingBox.minY,
+    boundingBox.maxX - boundingBox.minX,
+    boundingBox.maxY - boundingBox.minY
+  );
+
+  ctx.strokeStyle = "red";
+  ctx.stroke();
+}
+
+// 認識した人の座標を取得([左上のx座標, 左上のy座標, 右下のx座標, 右下のy座標])
+function getBodyPosition(keypoints) {
+  const boundingBox = posenet.getBoundingBox(keypoints);
+
+  var bodyPosition = []
+
+  bodyPosition.push(boundingBox.minX)
+  bodyPosition.push(boundingBox.minY)
+  bodyPosition.push(boundingBox.maxX)
+  bodyPosition.push(boundingBox.maxY)
+
+  for (var i=0; i<bodyPosition.length; i++){
+    if (bodyPosition[i] <= 0){
+      bodyPosition[i] = 0;
+    }
+
+    if(bodyPosition[i] >= videoWidth){
+      bodyPosition[i] = videoWidth;
+    }
+  }
+
+  return bodyPosition
+}
+
 
 bindPage();
