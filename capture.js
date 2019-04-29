@@ -9,22 +9,21 @@ var vm = new Vue({
   methods: {
     captureBody: function(){
 
-        var coord =  temp; //体の座標
+        var coord =  temp; //体の座標(始点X座標、始点Y座標、終点X座標、終点Y座標)
         var video = document.getElementById('video');
         var canvas = document.getElementById('capCanvas');
         var ctx    = canvas.getContext('2d');
 
-        // var width  = video.offsetWidth;
-        // var height = video.offsetHeight;
+        //console.log("始点X座標=" + coord[0] + ", 始点Y座標=" + coord[1] + ", 終点X座標=" + coord[2] + ", 終点Y座標=" + coord[3]);
 
-        //canvas.setAttribute('width' , width);
-        canvas.setAttribute('width' , 600);
-        //canvas.setAttribute('height', height);
-        canvas.setAttribute('height', 600);
+        canvas.setAttribute('width' , coord[2]-coord[0]);
+        canvas.setAttribute('height', coord[3]-coord[1]);
+
+        //console.log("canvasの横幅は" + canvas.width + "、高さは" + canvas.height);
+
         ctx.scale(-1, 1);
-        ctx.translate(-600, 0);
-        ctx.drawImage(video, coord[0], coord[1], coord[2], coord[3]);
-        // ctx.drawImage(video, 0, 0, width, height);
+        ctx.translate(-(coord[2]-coord[0]), 0);
+        ctx.drawImage(video, videoWidth-coord[2], coord[3], coord[2]-coord[0], coord[1]-coord[3], 0, 0, coord[2]-coord[0], coord[3]-coord[1]);
 
         var cve2 = document.getElementById("output");
         var downloadLink = document.getElementById("capture_link");

@@ -103,7 +103,7 @@ function detectPoseInRealTime(video, net) {
       if (score >= minPoseConfidence) {
         drawKeypoints(keypoints, minPartConfidence, ctx);
         drawBoundingBox(keypoints, ctx);
-        console.log(getBodyPosition(keypoints));
+        // console.log(getBodyPosition(keypoints));
         temp = getBodyPosition(keypoints);
       }
     });
