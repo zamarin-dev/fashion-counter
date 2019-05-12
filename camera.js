@@ -18,7 +18,7 @@
  *
  */
 
-const imageScaleFactor = 0.2;
+const imageScaleFactor = 0.7;
 const outputStride = 16;
 const flipHorizontal = false;
 const videoWidth = 600;
@@ -115,7 +115,7 @@ function detectPoseInRealTime(video, net) {
 
 // Posenetのモデルを読み込んでカメラを開始する
 async function bindPage() {
-  const net = await posenet.load(); // posenetの呼び出し
+  const net = await posenet.load(1.0); // posenetの呼び出し
 
   document.getElementById("loading").style.display = "none";
   document.getElementById("main").style.display = "block";
