@@ -31,6 +31,9 @@ var vm = new Vue({
         downloadLink.download = "captured_" + moment().format("YYYY-MM-DD-HHmmss") + ".png";
         downloadLink.click();
         console.log(moment().format("YYYY-MM-DD-HHmmss"));
+    },
+    setTimeFunc: function(){
+      setTimeout(this.captureBody, 4000);
     }
   }
 });
